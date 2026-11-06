@@ -45,6 +45,12 @@ export type VueltaReelProps = {
   endFrames: number;
   /** Leyenda legal en la placa de cierre (obligatoria si el Reel muestra alcohol). */
   endLegal?: boolean;
+  /** Sube la foto de la placa de cierre (ver VueltaPlaca.shiftY). */
+  endShiftY?: number;
+  /** Textos propios para la placa de cierre. */
+  endTitulo?: string;
+  endSubtitulo?: string;
+  endKicker?: string;
   /** Volumen del sonido original de los clips (0–1). */
   volume?: number;
   /** Pista de música dentro de public/ (reemplaza o acompaña el sonido original). */
@@ -135,7 +141,7 @@ const KenBurns: React.FC<{ src: string; frames: number; from: number; to: number
   );
 };
 
-export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, volume = 0.5, music, musicVolume = 1 }) => {
+export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, endShiftY, endTitulo, endSubtitulo, endKicker, volume = 0.5, music, musicVolume = 1 }) => {
   let from = 0;
   const seqs = clips.map((c, i) => {
     const s = (
@@ -198,7 +204,7 @@ export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, e
         style={{ backgroundImage: `url("${GRAIN_SVG}")`, backgroundSize: "300px 300px", opacity: 0.07, mixBlendMode: "overlay" }}
       />
       <Sequence from={total} durationInFrames={endFrames}>
-        <VueltaPlaca plate={endPlate} format="story" photo={endPhoto ?? null} focus={endFocus} legal={endLegal} />
+        <VueltaPlaca plate={endPlate} format="story" photo={endPhoto ?? null} focus={endFocus} legal={endLegal} shiftY={endShiftY} titulo={endTitulo} subtitulo={endSubtitulo} kicker={endKicker} />
       </Sequence>
     </AbsoluteFill>
   );
