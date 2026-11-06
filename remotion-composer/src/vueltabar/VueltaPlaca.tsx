@@ -36,6 +36,8 @@ export type VueltaPlacaProps = {
   focus?: string;
   /** Zoom sobre la foto (1 = cover justo). Útil para recortar logos o acercar el producto. */
   zoom?: number;
+  /** Sube la foto este % del alto (el hueco de abajo queda en grafito bajo el degradado). Para productos que están abajo en la foto. */
+  shiftY?: number;
   /** Fuerza mostrar/ocultar la leyenda legal (por defecto: la placa decide; pintas = sí). */
   legal?: boolean;
 };
@@ -72,7 +74,7 @@ const PlaceholderBg: React.FC = () => (
 
 const resolvePhoto = (p: string) => (/^https?:\/\//.test(p) ? p : staticFile(p));
 
-export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal }) => {
+export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal, shiftY = 0 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = spec.formats[format];
@@ -100,7 +102,18 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
     <AbsoluteFill style={{ backgroundColor: C.grafito, overflow: "hidden" }}>
       {/* z1 foto */}
       {src ? (
-        <AbsoluteFill style={{ transform: `scale(${photoScale * zoom})`, transformOrigin: objPos }}>
+        <AbsoluteFill
+          style={{
+            transform: `translateY(${-shiftY}%) scale(${photoScale * zoom})`,
+            transformOrigin: objPos,
+            ...(shiftY > 0
+              ? {
+                  WebkitMaskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)",
+                }
+              : {}),
+          }}
+        >
           <Img
             src={resolvePhoto(src)}
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: objPos, filter: layer("foto").filtro as string }}

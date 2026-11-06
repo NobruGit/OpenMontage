@@ -2,6 +2,7 @@ import React from "react";
 import {
   AbsoluteFill,
   Audio,
+  Img,
   OffthreadVideo,
   Sequence,
   interpolate,
@@ -32,6 +33,10 @@ export type VueltaReelProps = {
     focusSize?: string;
     /** Intensidad del desenfoque del fondo en px (por defecto 16; 0 = sin desenfoque). */
     blur?: number;
+    /** Solo fotos: zoom inicial y final (movimiento lento) y punto de origen del zoom. */
+    zoomFrom?: number;
+    zoomTo?: number;
+    origin?: string;
   }[];
   hook: { kicker: string; titulo: string };
   endPlate: PlateId;
@@ -117,13 +122,28 @@ const Hook: React.FC<{ kicker: string; titulo: string }> = ({ kicker, titulo }) 
   );
 };
 
+const KenBurns: React.FC<{ src: string; frames: number; from: number; to: number; origin: string }> = ({ src, frames, from, to, origin }) => {
+  const frame = useCurrentFrame();
+  const z = interpolate(frame, [0, frames], [from, to], { extrapolateRight: "clamp" });
+  return (
+    <AbsoluteFill style={{ transform: `scale(${z})`, transformOrigin: origin }}>
+      <Img
+        src={staticFile(src)}
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: origin, filter: "brightness(0.9) contrast(1.1) saturate(0.95)" }}
+      />
+    </AbsoluteFill>
+  );
+};
+
 export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, volume = 0.5, music, musicVolume = 1 }) => {
   let from = 0;
   const seqs = clips.map((c, i) => {
     const s = (
       <Sequence key={i} from={from} durationInFrames={c.frames}>
         <AbsoluteFill style={{ backgroundColor: C.carbono }}>
-          {c.focus && (c.blur ?? 16) > 0 ? (
+          {/\.(jpe?g|png)$/i.test(c.src) ? (
+            <KenBurns src={c.src} frames={c.frames} from={c.zoomFrom ?? 1.04} to={c.zoomTo ?? 1.14} origin={c.origin ?? "50% 40%"} />
+          ) : c.focus && (c.blur ?? 16) > 0 ? (
             <>
               {/* Fondo: el mismo clip desenfocado y un poco más oscuro */}
               <OffthreadVideo
