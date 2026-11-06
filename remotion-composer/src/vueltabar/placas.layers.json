@@ -2,6 +2,7 @@
   "$comment": "Vuelta Bar (@vueltabar) — sistema de placas reutilizables. Fuente única de verdad: VueltaPlaca.tsx lee este archivo. Medidas en px sobre el lienzo final; opacidades 0–1; capas listadas de abajo (0) hacia arriba.",
   "brand": {
     "handle": "@vueltabar",
+    "legal": "Beber con moderación. Prohibida su venta a menores de 18 años.",
     "colors": {
       "grafito": "#121314",
       "carbono": "#0A0A0B",
@@ -10,62 +11,247 @@
       "blanco": "#FFFFFF"
     },
     "fonts": {
-      "titulos": { "family": "Oswald", "weight": 700, "transform": "uppercase" },
-      "kicker": { "family": "Oswald", "weight": 500, "transform": "uppercase" },
-      "subtitulos": { "family": "Inter", "weight": 500, "transform": "none" }
+      "titulos": {
+        "family": "Oswald",
+        "weight": 700,
+        "transform": "uppercase"
+      },
+      "kicker": {
+        "family": "Oswald",
+        "weight": 500,
+        "transform": "uppercase"
+      },
+      "subtitulos": {
+        "family": "Inter",
+        "weight": 500,
+        "transform": "none"
+      }
     }
   },
   "layers": [
-    { "z": 0, "id": "base", "tipo": "color sólido", "valor": "#121314", "opacidad": 1, "uso": "Fondo grafito; se ve solo si la foto no cubre o mientras carga." },
-    { "z": 1, "id": "foto", "tipo": "imagen", "ajuste": "cover", "filtro": "brightness(0.88) contrast(1.08) saturate(0.92)", "opacidad": 1, "uso": "Foto propia del producto. 'focus' de cada placa define el object-position." },
-    { "z": 2, "id": "grade_ambar", "tipo": "color + blend soft-light", "valor": "#F2A33A", "opacidad": 0.1, "uso": "Unifica la temperatura de fotos distintas hacia el ámbar de las tiras LED." },
-    { "z": 3, "id": "vineta", "tipo": "radial-gradient", "valor": "transparente al 55% → rgba(0,0,0,0.55) en bordes", "opacidad": 1, "uso": "Encierra la mirada en el producto; look nocturno." },
-    { "z": 4, "id": "degradado_inferior", "tipo": "linear-gradient (abajo → arriba)", "uso": "Legibilidad del texto sobre fotos reales. Paradas definidas por formato." },
-    { "z": 5, "id": "grano", "tipo": "ruido SVG (feTurbulence)", "opacidad": 0.07, "blend": "overlay", "uso": "Textura industrial; evita el look 'plantilla limpia'." },
-    { "z": 6, "id": "handle", "tipo": "texto", "fuente": "Oswald 500", "color": "#FFFFFF", "opacidad": 0.7, "uso": "@vueltabar arriba a la izquierda (logo provisorio; reemplazable por PNG en 'logo')." },
-    { "z": 7, "id": "led", "tipo": "barra + glow", "color": "#F2A33A", "glow": "0 0 18px rgba(242,163,58,0.85)", "opacidad": 1, "uso": "Tira LED: firma visual de la marca, sobre el kicker." },
-    { "z": 8, "id": "kicker", "tipo": "texto", "fuente": "Oswald 500", "color": "#F2A33A", "opacidad": 1, "tracking": "0.28em", "uso": "Categoría del producto." },
-    { "z": 9, "id": "titulo", "tipo": "texto", "fuente": "Oswald 700", "color": "#FFFFFF", "opacidad": 1, "sombra": "0 2px 24px rgba(0,0,0,0.45)", "uso": "Título en mayúsculas, alineado a la izquierda." },
-    { "z": 10, "id": "subtitulo", "tipo": "texto", "fuente": "Inter 500", "color": "#FFFFFF", "opacidad": 0.82, "uso": "Bajada en tono conversacional." }
+    {
+      "z": 0,
+      "id": "base",
+      "tipo": "color sólido",
+      "valor": "#121314",
+      "opacidad": 1,
+      "uso": "Fondo grafito; se ve solo si la foto no cubre o mientras carga."
+    },
+    {
+      "z": 1,
+      "id": "foto",
+      "tipo": "imagen",
+      "ajuste": "cover",
+      "filtro": "brightness(0.88) contrast(1.08) saturate(0.92)",
+      "opacidad": 1,
+      "uso": "Foto propia del producto. 'focus' de cada placa define el object-position."
+    },
+    {
+      "z": 2,
+      "id": "grade_ambar",
+      "tipo": "color + blend soft-light",
+      "valor": "#F2A33A",
+      "opacidad": 0.1,
+      "uso": "Unifica la temperatura de fotos distintas hacia el ámbar de las tiras LED."
+    },
+    {
+      "z": 3,
+      "id": "vineta",
+      "tipo": "radial-gradient",
+      "valor": "transparente al 55% → rgba(0,0,0,0.55) en bordes",
+      "opacidad": 1,
+      "uso": "Encierra la mirada en el producto; look nocturno."
+    },
+    {
+      "z": 4,
+      "id": "degradado_inferior",
+      "tipo": "linear-gradient (abajo → arriba)",
+      "uso": "Legibilidad del texto sobre fotos reales. Paradas definidas por formato."
+    },
+    {
+      "z": 5,
+      "id": "grano",
+      "tipo": "ruido SVG (feTurbulence)",
+      "opacidad": 0.07,
+      "blend": "overlay",
+      "uso": "Textura industrial; evita el look 'plantilla limpia'."
+    },
+    {
+      "z": 6,
+      "id": "handle",
+      "tipo": "texto",
+      "fuente": "Oswald 500",
+      "color": "#FFFFFF",
+      "opacidad": 0.7,
+      "uso": "@vueltabar arriba a la izquierda (logo provisorio; reemplazable por PNG en 'logo')."
+    },
+    {
+      "z": 7,
+      "id": "led",
+      "tipo": "barra + glow",
+      "color": "#F2A33A",
+      "glow": "0 0 18px rgba(242,163,58,0.85)",
+      "opacidad": 1,
+      "uso": "Tira LED: firma visual de la marca, sobre el kicker."
+    },
+    {
+      "z": 8,
+      "id": "kicker",
+      "tipo": "texto",
+      "fuente": "Oswald 500",
+      "color": "#F2A33A",
+      "opacidad": 1,
+      "tracking": "0.28em",
+      "uso": "Categoría del producto."
+    },
+    {
+      "z": 9,
+      "id": "titulo",
+      "tipo": "texto",
+      "fuente": "Oswald 700",
+      "color": "#FFFFFF",
+      "opacidad": 1,
+      "sombra": "0 2px 24px rgba(0,0,0,0.45)",
+      "uso": "Título en mayúsculas, alineado a la izquierda."
+    },
+    {
+      "z": 11,
+      "id": "legal",
+      "tipo": "texto",
+      "fuente": "Inter 500",
+      "color": "#FFFFFF",
+      "opacidad": 0.6,
+      "uso": "Leyenda legal obligatoria en piezas con alcohol (Ley 24.788). Va debajo del subtítulo, dentro del área visible también en stories."
+    },
+    {
+      "z": 10,
+      "id": "subtitulo",
+      "tipo": "texto",
+      "fuente": "Inter 500",
+      "color": "#FFFFFF",
+      "opacidad": 0.82,
+      "uso": "Bajada en tono conversacional."
+    }
   ],
   "formats": {
     "feed": {
       "width": 1080,
       "height": 1080,
-      "safe": { "top": 72, "right": 80, "bottom": 92, "left": 80 },
+      "safe": {
+        "top": 72,
+        "right": 80,
+        "bottom": 92,
+        "left": 80
+      },
       "textMaxWidth": 900,
-      "handle": { "size": 26, "tracking": "0.12em" },
-      "led": { "width": 140, "height": 5, "marginBottom": 26 },
-      "kicker": { "size": 24, "marginBottom": 14 },
-      "titulo": { "size": 112, "lineHeight": 0.94, "tracking": "0.005em", "marginBottom": 22 },
-      "subtitulo": { "size": 36, "lineHeight": 1.25 },
-      "degradado": "linear-gradient(to top, rgba(10,10,11,0.94) 0%, rgba(10,10,11,0.78) 22%, rgba(10,10,11,0.35) 45%, rgba(10,10,11,0) 62%)"
+      "handle": {
+        "size": 26,
+        "tracking": "0.12em"
+      },
+      "led": {
+        "width": 140,
+        "height": 5,
+        "marginBottom": 26
+      },
+      "kicker": {
+        "size": 24,
+        "marginBottom": 14
+      },
+      "titulo": {
+        "size": 112,
+        "lineHeight": 0.94,
+        "tracking": "0.005em",
+        "marginBottom": 22
+      },
+      "subtitulo": {
+        "size": 36,
+        "lineHeight": 1.25
+      },
+      "degradado": "linear-gradient(to top, rgba(10,10,11,0.94) 0%, rgba(10,10,11,0.78) 22%, rgba(10,10,11,0.35) 45%, rgba(10,10,11,0) 62%)",
+      "legal": {
+        "size": 17,
+        "marginTop": 23
+      }
     },
     "portrait": {
       "$comment": "4:5 opcional: ocupa más pantalla en el feed; recomendado para carruseles.",
       "width": 1080,
       "height": 1350,
-      "safe": { "top": 80, "right": 80, "bottom": 104, "left": 80 },
+      "safe": {
+        "top": 80,
+        "right": 80,
+        "bottom": 104,
+        "left": 80
+      },
       "textMaxWidth": 900,
-      "handle": { "size": 26, "tracking": "0.12em" },
-      "led": { "width": 150, "height": 5, "marginBottom": 28 },
-      "kicker": { "size": 26, "marginBottom": 16 },
-      "titulo": { "size": 124, "lineHeight": 0.93, "tracking": "0.005em", "marginBottom": 24 },
-      "subtitulo": { "size": 38, "lineHeight": 1.25 },
-      "degradado": "linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.8) 22%, rgba(10,10,11,0.4) 42%, rgba(10,10,11,0) 60%)"
+      "handle": {
+        "size": 26,
+        "tracking": "0.12em"
+      },
+      "led": {
+        "width": 150,
+        "height": 5,
+        "marginBottom": 28
+      },
+      "kicker": {
+        "size": 26,
+        "marginBottom": 16
+      },
+      "titulo": {
+        "size": 124,
+        "lineHeight": 0.93,
+        "tracking": "0.005em",
+        "marginBottom": 24
+      },
+      "subtitulo": {
+        "size": 38,
+        "lineHeight": 1.25
+      },
+      "degradado": "linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.8) 22%, rgba(10,10,11,0.4) 42%, rgba(10,10,11,0) 60%)",
+      "legal": {
+        "size": 18,
+        "marginTop": 24
+      }
     },
     "story": {
       "width": 1080,
       "height": 1920,
       "$comment_safe": "Arriba 250 y abajo 380 quedan libres para la UI de Instagram (barra de progreso, perfil, caja de respuesta).",
-      "safe": { "top": 250, "right": 90, "bottom": 380, "left": 90 },
+      "safe": {
+        "top": 250,
+        "right": 90,
+        "bottom": 380,
+        "left": 90
+      },
       "textMaxWidth": 900,
-      "handle": { "size": 30, "tracking": "0.12em" },
-      "led": { "width": 170, "height": 6, "marginBottom": 32 },
-      "kicker": { "size": 30, "marginBottom": 18 },
-      "titulo": { "size": 140, "lineHeight": 0.93, "tracking": "0.005em", "marginBottom": 28 },
-      "subtitulo": { "size": 44, "lineHeight": 1.25 },
-      "degradado": "linear-gradient(to top, rgba(10,10,11,0.96) 0%, rgba(10,10,11,0.9) 24%, rgba(10,10,11,0.72) 42%, rgba(10,10,11,0) 66%)"
+      "handle": {
+        "size": 30,
+        "tracking": "0.12em"
+      },
+      "led": {
+        "width": 170,
+        "height": 6,
+        "marginBottom": 32
+      },
+      "kicker": {
+        "size": 30,
+        "marginBottom": 18
+      },
+      "titulo": {
+        "size": 140,
+        "lineHeight": 0.93,
+        "tracking": "0.005em",
+        "marginBottom": 28
+      },
+      "subtitulo": {
+        "size": 44,
+        "lineHeight": 1.25
+      },
+      "degradado": "linear-gradient(to top, rgba(10,10,11,0.96) 0%, rgba(10,10,11,0.9) 24%, rgba(10,10,11,0.72) 42%, rgba(10,10,11,0) 66%)",
+      "legal": {
+        "size": 22,
+        "marginTop": 28
+      }
     }
   },
   "plates": {
@@ -75,7 +261,8 @@
       "subtitulo": "Frías y tiradas en el punto exacto",
       "photo": null,
       "focus": "50% 35%",
-      "fotoSugerida": "Pinta recién tirada sobre la barra, espuma de dos dedos, condensación visible, tiras LED desenfocadas detrás. Producto en el tercio superior para dejar aire al texto."
+      "fotoSugerida": "Pinta recién tirada sobre la barra, espuma de dos dedos, condensación visible, tiras LED desenfocadas detrás. Producto en el tercio superior para dejar aire al texto.",
+      "legal": true
     },
     "pizzas": {
       "kicker": "Fermentación lenta",
@@ -83,7 +270,8 @@
       "subtitulo": "100% crocantes y listas para compartir",
       "photo": null,
       "focus": "50% 30%",
-      "fotoSugerida": "Pizza entera vista cenital o a 45°, borde inflado y leopardeado, sobre tabla de madera oscura. Cortar en la mitad superior del encuadre."
+      "fotoSugerida": "Pizza entera vista cenital o a 45°, borde inflado y leopardeado, sobre tabla de madera oscura. Cortar en la mitad superior del encuadre.",
+      "legal": false
     },
     "sandwiches": {
       "kicker": "Sándwiches",
@@ -91,7 +279,8 @@
       "subtitulo": "El bajón que te merecés hoy",
       "photo": null,
       "focus": "50% 38%",
-      "fotoSugerida": "Sándwich cortado al medio mostrando el corte, a la altura de los ojos, con papas al costado. Luz lateral cálida que marque textura."
+      "fotoSugerida": "Sándwich cortado al medio mostrando el corte, a la altura de los ojos, con papas al costado. Luz lateral cálida que marque textura.",
+      "legal": false
     }
   }
 }

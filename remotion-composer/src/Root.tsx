@@ -17,6 +17,7 @@ import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
 import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
 import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
+import { VueltaReel, VueltaReelProps, reelDuration } from "./vueltabar/VueltaReel";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -345,6 +346,22 @@ export const Root: React.FC = () => {
           />
         )),
       )}
+      <Composition
+        id="Vuelta-reel"
+        component={VueltaReel}
+        fps={30}
+        width={1080}
+        height={1920}
+        durationInFrames={150}
+        calculateMetadata={({ props }) => ({ durationInFrames: reelDuration(props as VueltaReelProps) })}
+        defaultProps={{
+          clips: [],
+          hook: { kicker: "Vuelta Bar", titulo: "TÍTULO\nDEL REEL" },
+          endPlate: "pintas",
+          endPhoto: null,
+          endFrames: 90,
+        } as VueltaReelProps}
+      />
     </>
   );
 };

@@ -104,3 +104,6 @@ venv/
 
 # Local Wan / diffusers GPU environment
 .venv-wan/
+
+# Fotos reales del bar (no se suben al repo)
+remotion-composer/public/vueltabar/

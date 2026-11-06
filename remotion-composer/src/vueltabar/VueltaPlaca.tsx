@@ -32,6 +32,12 @@ export type VueltaPlacaProps = {
   kicker?: string;
   titulo?: string;
   subtitulo?: string;
+  /** Punto de foco de la foto (object-position), p. ej. "50% 26%". Por defecto, el de la placa. */
+  focus?: string;
+  /** Zoom sobre la foto (1 = cover justo). Útil para recortar logos o acercar el producto. */
+  zoom?: number;
+  /** Fuerza mostrar/ocultar la leyenda legal (por defecto: la placa decide; pintas = sí). */
+  legal?: boolean;
 };
 
 const oswald = loadOswald(["500", "700"]).fontFamily;
@@ -66,12 +72,14 @@ const PlaceholderBg: React.FC = () => (
 
 const resolvePhoto = (p: string) => (/^https?:\/\//.test(p) ? p : staticFile(p));
 
-export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo }) => {
+export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = spec.formats[format];
   const p = spec.plates[plate];
   const src = photo ?? p.photo;
+  const objPos = focus ?? p.focus;
+  const showLegal = legal ?? p.legal;
 
   // Animación (queda estática a partir de ~2 s, así el último frame sirve como still).
   const ledOn = interpolate(frame, [6, 10, 12, 14, 22], [0, 1, 0.35, 1, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
@@ -92,10 +100,10 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
     <AbsoluteFill style={{ backgroundColor: C.grafito, overflow: "hidden" }}>
       {/* z1 foto */}
       {src ? (
-        <AbsoluteFill style={{ transform: `scale(${photoScale})` }}>
+        <AbsoluteFill style={{ transform: `scale(${photoScale * zoom})`, transformOrigin: objPos }}>
           <Img
             src={resolvePhoto(src)}
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.focus, filter: layer("foto").filtro as string }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: objPos, filter: layer("foto").filtro as string }}
           />
         </AbsoluteFill>
       ) : (
@@ -203,6 +211,21 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
         >
           {subtitulo ?? p.subtitulo}
         </div>
+        {showLegal ? (
+          <div
+            style={{
+              fontFamily: inter,
+              fontWeight: 500,
+              fontSize: f.legal.size,
+              marginTop: f.legal.marginTop,
+              letterSpacing: "0.02em",
+              color: C.blanco,
+              opacity: (layer("legal").opacidad as number) * rise(24),
+            }}
+          >
+            {spec.brand.legal}
+          </div>
+        ) : null}
       </div>
     </AbsoluteFill>
   );
