@@ -16,6 +16,7 @@ import { ProductReveal, ProductRevealProps } from "./components/ProductReveal";
 import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
 import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
+import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -330,6 +331,20 @@ export const Root: React.FC = () => {
           overlay: true,
         } as EndTagProps}
       />
+      {/* Vuelta Bar (@vueltabar): 3 placas x 3 formatos. Still = último frame; video = 5 s. */}
+      {VUELTA_PLATES.flatMap((plate) =>
+        VUELTA_FORMATS.map((format) => (
+          <Composition
+            key={`${plate}-${format}`}
+            id={`Vuelta-${plate}-${format}`}
+            component={VueltaPlaca}
+            durationInFrames={150}
+            fps={30}
+            {...vueltaFormatSize(format)}
+            defaultProps={{ plate, format, photo: null }}
+          />
+        )),
+      )}
     </>
   );
 };
