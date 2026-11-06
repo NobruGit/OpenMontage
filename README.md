@@ -1,1 +1,1 @@
-Archivos temporales para publicar en Instagram. Se borra después de publicar.
+Archivos temporales para publicar en Instagram / importar a Canva. Se vacía después de usarlos.
