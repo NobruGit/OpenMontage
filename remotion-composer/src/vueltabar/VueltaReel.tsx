@@ -1,6 +1,7 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
   OffthreadVideo,
   Sequence,
   interpolate,
@@ -41,6 +42,9 @@ export type VueltaReelProps = {
   endLegal?: boolean;
   /** Volumen del sonido original de los clips (0–1). */
   volume?: number;
+  /** Pista de música dentro de public/ (reemplaza o acompaña el sonido original). */
+  music?: string | null;
+  musicVolume?: number;
 };
 
 const oswald = loadOswald(["500", "700"]).fontFamily;
@@ -113,7 +117,7 @@ const Hook: React.FC<{ kicker: string; titulo: string }> = ({ kicker, titulo }) 
   );
 };
 
-export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, volume = 0.5 }) => {
+export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, volume = 0.5, music, musicVolume = 1 }) => {
   let from = 0;
   const seqs = clips.map((c, i) => {
     const s = (
@@ -165,6 +169,7 @@ export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, e
   const total = from;
   return (
     <AbsoluteFill style={{ backgroundColor: C.carbono }}>
+      {music ? <Audio src={staticFile(music)} volume={musicVolume} /> : null}
       {seqs}
       <Sequence from={0} durationInFrames={Math.min(84, total)}>
         <Hook {...hook} />
