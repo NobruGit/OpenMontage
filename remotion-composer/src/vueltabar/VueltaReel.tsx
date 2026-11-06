@@ -22,7 +22,16 @@ import { PlateId, VueltaPlaca } from "./VueltaPlaca";
 
 export type VueltaReelProps = {
   /** Archivos dentro de public/ (mp4 1080x1920 30 fps), en orden. */
-  clips: { src: string; frames: number }[];
+  clips: {
+    src: string;
+    frames: number;
+    /** Punto de foco "x% y%": lo de alrededor se desenfoca (efecto de poca profundidad de campo). */
+    focus?: string;
+    /** Radio de la zona nítida "ancho% alto%" (por defecto "42% 30%"). */
+    focusSize?: string;
+    /** Intensidad del desenfoque del fondo en px (por defecto 16; 0 = sin desenfoque). */
+    blur?: number;
+  }[];
   hook: { kicker: string; titulo: string };
   endPlate: PlateId;
   endPhoto?: string | null;
@@ -110,11 +119,41 @@ export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, e
     const s = (
       <Sequence key={i} from={from} durationInFrames={c.frames}>
         <AbsoluteFill style={{ backgroundColor: C.carbono }}>
-          <OffthreadVideo
-            src={staticFile(c.src)}
-            volume={volume}
-            style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.9) contrast(1.1) saturate(0.95)" }}
-          />
+          {c.focus && (c.blur ?? 16) > 0 ? (
+            <>
+              {/* Fondo: el mismo clip desenfocado y un poco más oscuro */}
+              <OffthreadVideo
+                src={staticFile(c.src)}
+                muted
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  transform: "scale(1.06)",
+                  filter: `blur(${c.blur ?? 16}px) brightness(0.72) contrast(1.05) saturate(0.85)`,
+                }}
+              />
+              {/* Zona nítida con borde suave alrededor del punto de foco */}
+              <AbsoluteFill
+                style={{
+                  WebkitMaskImage: `radial-gradient(ellipse ${c.focusSize ?? "42% 30%"} at ${c.focus}, #000 55%, transparent 100%)`,
+                  maskImage: `radial-gradient(ellipse ${c.focusSize ?? "42% 30%"} at ${c.focus}, #000 55%, transparent 100%)`,
+                }}
+              >
+                <OffthreadVideo
+                  src={staticFile(c.src)}
+                  volume={volume}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.9) contrast(1.1) saturate(0.95)" }}
+                />
+              </AbsoluteFill>
+            </>
+          ) : (
+            <OffthreadVideo
+              src={staticFile(c.src)}
+              volume={volume}
+              style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.9) contrast(1.1) saturate(0.95)" }}
+            />
+          )}
           <AbsoluteFill style={{ backgroundColor: C.ambar, opacity: 0.1, mixBlendMode: "soft-light" }} />
           <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)" }} />
         </AbsoluteFill>
