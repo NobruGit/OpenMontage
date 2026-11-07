@@ -37,8 +37,12 @@ export type VueltaReelProps = {
     zoomFrom?: number;
     zoomTo?: number;
     origin?: string;
+    /** Texto en pantalla durante este tramo (abajo, sobre la zona libre de la interfaz de IG). */
+    caption?: { kicker?: string; titulo: string };
   }[];
   hook: { kicker: string; titulo: string };
+  /** Cuántos cuadros se ve el gancho (por defecto 84 ≈ 2,8 s). Usá la duración total para que quede fijo (loops). */
+  hookFrames?: number;
   endPlate: PlateId;
   endPhoto?: string | null;
   endFocus?: string;
@@ -72,11 +76,11 @@ const GRAIN_SVG =
 export const reelDuration = (p: Pick<VueltaReelProps, "clips" | "endFrames">) =>
   p.clips.reduce((a, c) => a + c.frames, 0) + p.endFrames;
 
-const Hook: React.FC<{ kicker: string; titulo: string }> = ({ kicker, titulo }) => {
+const Hook: React.FC<{ kicker: string; titulo: string; frames?: number }> = ({ kicker, titulo, frames = 84 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const r = (d: number) => spring({ frame: frame - d, fps, config: { damping: 200, stiffness: 110 } });
-  const out = interpolate(frame, [70, 82], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const out = interpolate(frame, [frames - 14, frames - 2], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ opacity: out }}>
       <AbsoluteFill
@@ -141,7 +145,52 @@ const KenBurns: React.FC<{ src: string; frames: number; from: number; to: number
   );
 };
 
-export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, endShiftY, endTitulo, endSubtitulo, endKicker, volume = 0.5, music, musicVolume = 1 }) => {
+const Caption: React.FC<{ kicker?: string; titulo: string; frames: number }> = ({ kicker, titulo, frames }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const r = spring({ frame: frame - 2, fps, config: { damping: 200, stiffness: 120 } });
+  const out = interpolate(frame, [frames - 6, frames], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <AbsoluteFill style={{ opacity: out }}>
+      <AbsoluteFill style={{ background: "linear-gradient(to top, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.75) 22%, rgba(10,10,11,0) 45%)" }} />
+      <div style={{ position: "absolute", left: story.safe.left, right: story.safe.right, bottom: story.safe.bottom }}>
+        <div
+          style={{
+            width: story.led.width * r,
+            height: story.led.height,
+            marginBottom: story.led.marginBottom,
+            backgroundColor: C.ambar,
+            borderRadius: story.led.height,
+            boxShadow: `0 0 18px ${C.ambarGlow}, 0 0 42px rgba(242,163,58,0.35)`,
+          }}
+        />
+        {kicker ? (
+          <div style={{ fontFamily: oswald, fontWeight: 500, fontSize: 40, letterSpacing: "0.2em", color: C.ambar, textTransform: "uppercase", marginBottom: 14, opacity: r }}>
+            {kicker}
+          </div>
+        ) : null}
+        <div
+          style={{
+            fontFamily: oswald,
+            fontWeight: 700,
+            fontSize: 118,
+            lineHeight: 0.94,
+            color: C.blanco,
+            textTransform: "uppercase",
+            whiteSpace: "pre-line",
+            textShadow: "0 2px 24px rgba(0,0,0,0.5)",
+            opacity: r,
+            transform: `translateY(${interpolate(r, [0, 1], [30, 0])}px)`,
+          }}
+        >
+          {titulo}
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, endPhoto, endFocus, endFrames, endLegal, endShiftY, endTitulo, endSubtitulo, endKicker, volume = 0.5, music, musicVolume = 1, hookFrames = 84 }) => {
   let from = 0;
   const seqs = clips.map((c, i) => {
     const s = (
@@ -186,6 +235,7 @@ export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, e
           )}
           <AbsoluteFill style={{ backgroundColor: C.ambar, opacity: 0.1, mixBlendMode: "soft-light" }} />
           <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)" }} />
+          {c.caption ? <Caption {...c.caption} frames={c.frames} /> : null}
         </AbsoluteFill>
       </Sequence>
     );
@@ -197,15 +247,17 @@ export const VueltaReel: React.FC<VueltaReelProps> = ({ clips, hook, endPlate, e
     <AbsoluteFill style={{ backgroundColor: C.carbono }}>
       {music ? <Audio src={staticFile(music)} volume={musicVolume} /> : null}
       {seqs}
-      <Sequence from={0} durationInFrames={Math.min(84, total)}>
-        <Hook {...hook} />
+      <Sequence from={0} durationInFrames={Math.min(hookFrames, total)}>
+        <Hook {...hook} frames={hookFrames >= total ? hookFrames + 20 : hookFrames} />
       </Sequence>
       <AbsoluteFill
         style={{ backgroundImage: `url("${GRAIN_SVG}")`, backgroundSize: "300px 300px", opacity: 0.07, mixBlendMode: "overlay" }}
       />
+      {endFrames > 0 ? (
       <Sequence from={total} durationInFrames={endFrames}>
         <VueltaPlaca plate={endPlate} format="story" photo={endPhoto ?? null} focus={endFocus} legal={endLegal} shiftY={endShiftY} titulo={endTitulo} subtitulo={endSubtitulo} kicker={endKicker} />
       </Sequence>
+      ) : null}
     </AbsoluteFill>
   );
 };
