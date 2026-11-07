@@ -74,7 +74,7 @@ La espuma de tu pinta no está para cobrarte menos cerveza. Está para que el ú
 
 Esos dos dedos de espuma tapan la cerveza y frenan que se escapen el gas y el aroma. Sin espuma, a mitad de pinta ya está chata.
 
-Por eso en Vuelta la tiramos con tiempo: vaso inclinado, chorro firme y la corona al final.
+Por eso en La Vuelta la tiramos con tiempo: vaso inclinado, chorro firme y la corona al final.
 
 Esta semana en las canillas: [ESTILOS DE LA SEMANA].
 
@@ -136,7 +136,7 @@ Mandáselo al que dice que toda pizza es igual.
 ```
 Ese momento de la noche en que la segunda pinta te pide algo más contundente que unos maníes.
 
-Para eso están los sándwiches de Vuelta: pan [TIPO DE PAN], [RELLENO ESTRELLA] y papas al lado. Nada de porciones tímidas.
+Para eso están los sándwiches de La Vuelta: pan [TIPO DE PAN], [RELLENO ESTRELLA] y papas al lado. Nada de porciones tímidas.
 
 ¿Cuál es tu bajón de miércoles: [SÁNDWICH 1] o [SÁNDWICH 2]?
 
@@ -146,12 +146,12 @@ Para eso están los sándwiches de Vuelta: pan [TIPO DE PAN], [RELLENO ESTRELLA]
 ### 5 · Viernes 20/11 · 18:30 · Reel tutorial (20–30 s)
 
 **Tomas:** plano cerrado de la canilla y el vaso, con un texto en pantalla por paso: "1 · Vaso enjuagado en frío" → "2 · Inclinado a 45°" → "3 · Enderezar a mitad de vaso" → "4 · Corona de dos dedos" → pinta terminada sobre la barra bajo los LEDs → cierre con la placa Pintas animada.
-**Primer cuadro:** "Así tiramos una pinta en Vuelta"
+**Primer cuadro:** "Así tiramos una pinta en La Vuelta"
 > Ajustá los pasos a como lo hace realmente tu bartender.
 
 **Copy:**
 ```
-Así tiramos una pinta en Vuelta, en 4 pasos. El tercero es el que casi todos se saltean.
+Así tiramos una pinta en La Vuelta, en 4 pasos. El tercero es el que casi todos se saltean.
 
 1. Vaso enjuagado en frío, para que no corte la espuma.
 2. Inclinado a 45° mientras cae el chorro.
@@ -203,7 +203,7 @@ Portadas con la placa usando la hora como título (ejemplo: `--props='{"plate":"
 
 **Copy:**
 ```
-Lo que pasa en Vuelta antes de que llegues: de la barra vacía a las [HORA] a la barra llena a las [HORA].
+Lo que pasa en La Vuelta antes de que llegues: de la barra vacía a las [HORA] a la barra llena a las [HORA].
 
 Antes de la primera pinta hay horas de trabajo: [NOMBRES DEL EQUIPO] armando cocina, probando cada canilla y prendiendo las luces una por una.
 
@@ -294,7 +294,7 @@ Mandáselo a quien hoy te dice "una y me voy".
 ```
 Pregunta seria de sábado: ¿sándwich o pizza para acompañar la pinta?
 
-En Vuelta tenemos argumentos para los dos bandos. [SÁNDWICH 1] si venís con hambre de verdad, [NOMBRE DE LA PIZZA] si son varios para compartir.
+En La Vuelta tenemos argumentos para los dos bandos. [SÁNDWICH 1] si venís con hambre de verdad, [NOMBRE DE LA PIZZA] si son varios para compartir.
 
 Contanos en los comentarios de qué equipo sos.
 
