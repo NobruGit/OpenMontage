@@ -38,6 +38,8 @@ export type VueltaPlacaProps = {
   zoom?: number;
   /** Sube la foto este % del alto (el hueco de abajo queda en grafito bajo el degradado). Para productos que están abajo en la foto. */
   shiftY?: number;
+  /** Dónde va el bloque de texto: abajo (por defecto) o arriba, para fotos con el producto abajo. */
+  anchor?: "top" | "bottom";
   /** Fuerza mostrar/ocultar la leyenda legal (por defecto: la placa decide; pintas = sí). */
   legal?: boolean;
 };
@@ -74,7 +76,7 @@ const PlaceholderBg: React.FC = () => (
 
 const resolvePhoto = (p: string) => (/^https?:\/\//.test(p) ? p : staticFile(p));
 
-export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal, shiftY = 0 }) => {
+export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal, shiftY = 0, anchor = "bottom" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = spec.formats[format];
@@ -106,6 +108,12 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
           style={{
             transform: `translateY(${-shiftY}%) scale(${photoScale * zoom})`,
             transformOrigin: objPos,
+            ...(shiftY < 0
+              ? {
+                  WebkitMaskImage: "linear-gradient(to top, #000 82%, transparent 100%)",
+                  maskImage: "linear-gradient(to top, #000 82%, transparent 100%)",
+                }
+              : {}),
             ...(shiftY > 0
               ? {
                   WebkitMaskImage: "linear-gradient(to bottom, #000 82%, transparent 100%)",
@@ -130,7 +138,7 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
       <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)" }} />
 
       {/* z4 degradado inferior (legibilidad) */}
-      <AbsoluteFill style={{ background: f.degradado }} />
+      <AbsoluteFill style={{ background: anchor === "top" ? f.degradado.replace("to top", "to bottom") : f.degradado }} />
 
       {/* z5 grano */}
       <AbsoluteFill
@@ -162,7 +170,7 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
           position: "absolute",
           left: f.safe.left,
           right: f.safe.right,
-          bottom: f.safe.bottom,
+          ...(anchor === "top" ? { top: f.safe.top + 70 } : { bottom: f.safe.bottom }),
           maxWidth: f.textMaxWidth,
           display: "flex",
           flexDirection: "column",
