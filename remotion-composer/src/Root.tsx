@@ -18,6 +18,7 @@ import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
 import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
 import { VueltaReel, VueltaReelProps, reelDuration } from "./vueltabar/VueltaReel";
+import { VueltaVersus, VueltaVersusProps } from "./vueltabar/VueltaVersus";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -346,6 +347,20 @@ export const Root: React.FC = () => {
           />
         )),
       )}
+      <Composition
+        id="Vuelta-versus"
+        component={VueltaVersus}
+        fps={30}
+        width={1080}
+        height={1920}
+        durationInFrames={150}
+        defaultProps={{
+          top: { photo: "vueltabar/f1/end_cebolla.jpg", label: "Opción A" },
+          bottom: { photo: "vueltabar/end_crudo.jpg", label: "Opción B" },
+          kicker: "Sábado en Vuelta",
+          pregunta: "¿CUÁL PEDÍS?",
+        } as VueltaVersusProps}
+      />
       <Composition
         id="Vuelta-reel"
         component={VueltaReel}
