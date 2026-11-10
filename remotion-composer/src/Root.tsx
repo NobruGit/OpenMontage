@@ -19,6 +19,7 @@ import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
 import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
 import { VueltaReel, VueltaReelProps, reelDuration } from "./vueltabar/VueltaReel";
 import { VueltaVersus, VueltaVersusProps } from "./vueltabar/VueltaVersus";
+import { VueltaReloj, VueltaRelojProps, relojDuration } from "./vueltabar/VueltaReloj";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -357,9 +358,26 @@ export const Root: React.FC = () => {
         defaultProps={{
           top: { photo: "vueltabar/f1/end_cebolla.jpg", label: "Opción A" },
           bottom: { photo: "vueltabar/end_crudo.jpg", label: "Opción B" },
-          kicker: "Sábado en Vuelta",
+          kicker: "Sábado en La Vuelta",
           pregunta: "¿CUÁL PEDÍS?",
         } as VueltaVersusProps}
+      />
+      <Composition
+        id="Vuelta-reloj"
+        component={VueltaReloj}
+        fps={30}
+        width={1080}
+        height={1920}
+        durationInFrames={300}
+        calculateMetadata={({ props }) => ({ durationInFrames: relojDuration(props as VueltaRelojProps) })}
+        defaultProps={{
+          clips: [{ src: "vueltabar/d08/tirada.mp4", frames: 150 }],
+          antes: "17:59",
+          hora: "18:00",
+          kicker: "Happy hour",
+          titulo: "ARRANCÓ",
+          subtitulo: "Hasta las 21:30",
+        } as VueltaRelojProps}
       />
       <Composition
         id="Vuelta-reel"
