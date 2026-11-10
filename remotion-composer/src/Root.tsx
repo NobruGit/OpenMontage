@@ -19,6 +19,7 @@ import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
 import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
 import { VueltaReel, VueltaReelProps, reelDuration } from "./vueltabar/VueltaReel";
 import { VueltaVersus, VueltaVersusProps } from "./vueltabar/VueltaVersus";
+import { VueltaClub, VueltaClubProps } from "./vueltabar/VueltaClub";
 import { VueltaReloj, VueltaRelojProps, relojDuration } from "./vueltabar/VueltaReloj";
 
 // ---------------------------------------------------------------------------
@@ -361,6 +362,15 @@ export const Root: React.FC = () => {
           kicker: "Sábado en La Vuelta",
           pregunta: "¿CUÁL PEDÍS?",
         } as VueltaVersusProps}
+      />
+      <Composition
+        id="Vuelta-club"
+        component={VueltaClub}
+        fps={30}
+        width={1080}
+        height={1920}
+        durationInFrames={150}
+        defaultProps={{ variant: "sumate", photo: "vueltabar/s62.jpg", screen: "vueltabar/club/club_screen.png", kicker: "Club de puntos", titulo: "SUMÁ PUNTOS", pasos: [], cierre: "" } as VueltaClubProps}
       />
       <Composition
         id="Vuelta-reloj"
