@@ -19,6 +19,7 @@ import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
 import { VueltaPlaca, VUELTA_FORMATS, VUELTA_PLATES, vueltaFormatSize } from "./vueltabar/VueltaPlaca";
 import { VueltaReel, VueltaReelProps, reelDuration } from "./vueltabar/VueltaReel";
 import { VueltaVersus, VueltaVersusProps } from "./vueltabar/VueltaVersus";
+import { VueltaTutorial, VueltaTutorialProps } from "./vueltabar/VueltaTutorial";
 import { VueltaClub, VueltaClubProps } from "./vueltabar/VueltaClub";
 import { VueltaReloj, VueltaRelojProps, relojDuration } from "./vueltabar/VueltaReloj";
 
@@ -362,6 +363,15 @@ export const Root: React.FC = () => {
           kicker: "Sábado en La Vuelta",
           pregunta: "¿CUÁL PEDÍS?",
         } as VueltaVersusProps}
+      />
+      <Composition
+        id="Vuelta-tutorial"
+        component={VueltaTutorial}
+        fps={30}
+        width={1080}
+        height={1920}
+        durationInFrames={1}
+        defaultProps={{ paso: 1, total: 3, titulo: "Paso", items: [] } as VueltaTutorialProps}
       />
       <Composition
         id="Vuelta-club"
