@@ -42,6 +42,8 @@ export type VueltaPlacaProps = {
   anchor?: "top" | "bottom";
   /** Fuerza mostrar/ocultar la leyenda legal (por defecto: la placa decide; pintas = sí). */
   legal?: boolean;
+  /** Etiqueta destacada en ámbar debajo del título (p. ej. una promo). */
+  badge?: string;
 };
 
 const oswald = loadOswald(["500", "700"]).fontFamily;
@@ -76,7 +78,7 @@ const PlaceholderBg: React.FC = () => (
 
 const resolvePhoto = (p: string) => (/^https?:\/\//.test(p) ? p : staticFile(p));
 
-export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal, shiftY = 0, anchor = "bottom" }) => {
+export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, kicker, titulo, subtitulo, focus, zoom = 1, legal, shiftY = 0, anchor = "bottom", badge }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const f = spec.formats[format];
@@ -219,6 +221,28 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
         >
           {titulo ?? p.titulo}
         </div>
+        {badge ? (
+          <div
+            style={{
+              fontFamily: oswald,
+              fontWeight: 700,
+              fontSize: f.titulo.size * 0.44,
+              whiteSpace: "pre-line",
+              lineHeight: 1.05,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+              color: C.carbono,
+              backgroundColor: C.ambar,
+              padding: "10px 26px 12px",
+              borderRadius: 14,
+              marginBottom: f.titulo.marginBottom + 6,
+              boxShadow: `0 0 28px ${C.ambarGlow}`,
+              ...textIn(18),
+            }}
+          >
+            {badge}
+          </div>
+        ) : null}
         <div
           style={{
             fontFamily: inter,
