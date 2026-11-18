@@ -159,7 +159,7 @@
       },
       "titulo": {
         "size": 112,
-        "lineHeight": 1.06,
+        "lineHeight": 1.14,
         "tracking": "0.005em",
         "marginBottom": 22
       },
@@ -199,7 +199,7 @@
       },
       "titulo": {
         "size": 124,
-        "lineHeight": 1.06,
+        "lineHeight": 1.14,
         "tracking": "0.005em",
         "marginBottom": 24
       },
@@ -239,7 +239,7 @@
       },
       "titulo": {
         "size": 140,
-        "lineHeight": 1.06,
+        "lineHeight": 1.14,
         "tracking": "0.005em",
         "marginBottom": 28
       },
