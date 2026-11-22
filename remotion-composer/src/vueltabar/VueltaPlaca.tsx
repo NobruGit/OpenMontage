@@ -250,6 +250,7 @@ export const VueltaPlaca: React.FC<VueltaPlacaProps> = ({ plate, format, photo, 
             fontSize: f.subtitulo.size,
             lineHeight: f.subtitulo.lineHeight,
             color: C.blanco,
+            whiteSpace: "pre-line",
             ...textIn(20),
             opacity: (sub.opacidad as number) * rise(20),
           }}
